@@ -1,10 +1,10 @@
 {
-  "generatedAt": "2026-02-15T17:56:22.385Z",
+  "generatedAt": "2026-02-15T18:17:49.226Z",
   "commitInfo": {
     "app": {
-      "sha": "353d061",
-      "message": "Fix symptom display and calendar reload on homescreen",
-      "date": "2026-02-16 01:45:20 +0800"
+      "sha": "b24730f",
+      "message": "Replace log chooser with single-screen SymptomLog",
+      "date": "2026-02-16 01:00:37 +0800"
     },
     "api": {
       "sha": "0ed608d",
@@ -13,7 +13,7 @@
     }
   },
   "overall": {
-    "percent": 67,
+    "percent": 68,
     "label": "Building"
   },
   "categories": {
@@ -26,7 +26,7 @@
     },
     "ux": {
       "label": "Design & Polish",
-      "percent": 46,
+      "percent": 60,
       "items": [
         {
           "name": "Stone color palette",
@@ -53,6 +53,18 @@
           "done": true
         },
         {
+          "name": "Error feedback (Alert on save failures)",
+          "done": true
+        },
+        {
+          "name": "Double-submit prevention",
+          "done": true
+        },
+        {
+          "name": "State reset on screen revisit",
+          "done": true
+        },
+        {
           "name": "Design system / component library",
           "done": false
         },
@@ -69,10 +81,6 @@
           "done": false
         },
         {
-          "name": "Comprehensive error states",
-          "done": false
-        },
-        {
           "name": "Dark mode support",
           "done": false
         },
@@ -81,7 +89,7 @@
           "done": false
         }
       ],
-      "detail": "6 of 13 checklist items"
+      "detail": "9 of 15 checklist items"
     },
     "api": {
       "label": "Backend API",
@@ -129,7 +137,7 @@
     },
     "infra": {
       "label": "Infrastructure",
-      "percent": 36,
+      "percent": 31,
       "items": [
         {
           "name": "Vercel deployment (API)",
@@ -174,9 +182,17 @@
         {
           "name": "API documentation",
           "done": false
+        },
+        {
+          "name": "Account deletion backend purge",
+          "done": false
+        },
+        {
+          "name": "API PUT/PATCH for updates (sleep edit, profile)",
+          "done": false
         }
       ],
-      "detail": "4 of 11 items done"
+      "detail": "4 of 13 items done"
     }
   },
   "features": [
@@ -190,22 +206,21 @@
         "/api/logs POST",
         "/api/logs GET",
         "/api/profile GET",
-        "/api/medications GET",
-        "/api/medications/logs POST"
+        "/api/meds GET",
+        "/api/meds/logs GET"
       ],
-      "notes": "5-step AM + 5-step PM flow with meds step, fully API-connected"
+      "notes": "5-step AM + 5-step PM flow. Error handling, double-submit guard, disruptions field fixed. Evening symptomsJson now consistently Record<string,number>. Meds step UI built but not wired into step flow"
     },
     {
       "name": "Detailed Symptom Log",
       "status": "connected",
       "screens": [
-        "log.tsx",
-        "detailed-log.tsx"
+        "log.tsx"
       ],
       "endpoints": [
         "/api/logs POST"
       ],
-      "notes": "5-step wizard (symptoms → severity → mood → triggers → note). Severity UI matches morning check-in with Mild/Moderate/Severe per symptom"
+      "notes": "5-step wizard with Alert error handling, double-submit guard, state reset on revisit. logType='symptom' logs may not show in homescreen/journal"
     },
     {
       "name": "Home Dashboard",
@@ -215,12 +230,12 @@
       ],
       "endpoints": [
         "/api/logs GET",
-        "/api/medications GET",
-        "/api/medications/logs GET",
+        "/api/meds GET",
+        "/api/meds/logs GET",
         "/api/articles GET",
         "/api/insights/home GET"
       ],
-      "notes": "Readiness score with activity recommendation, 7-day strip, morning/evening check-in CTA, editable sleep, meds, journal card"
+      "notes": "Readiness score, 7-day strip, smart CTA. Streak deduplicates by date. Handles legacy symptomsJson object values. Sleep edit creates new entry (no PATCH/PUT)"
     },
     {
       "name": "Insights & Patterns",
@@ -234,7 +249,7 @@
         "/api/insights/correlations GET",
         "/api/insights/benchmarks GET"
       ],
-      "notes": "Pattern detection, correlations, benchmark comparisons. Morning/evening completion tracking. Report moved to settings"
+      "notes": "Pattern detection, correlations, benchmarks. Morning/evening completion tracking. Doctor card removed"
     },
     {
       "name": "Journal",
@@ -246,7 +261,7 @@
         "/api/logs GET",
         "/api/insights/home GET"
       ],
-      "notes": "Landing screen with week overview, links to calendar and symptom log. View full week routes to calendar"
+      "notes": "Week overview, streak counts AM+PM, evening available at 7PM refreshes on focus. Links to calendar and symptom log"
     },
     {
       "name": "Medications",
@@ -260,7 +275,7 @@
         "/api/meds/[id]/log POST",
         "/api/meds/logs GET"
       ],
-      "notes": "Add/edit/delete meds, daily tracking, adherence view. Custom time/frequency, clearable type selection, SMS phone field, reordered tabs (Current first)"
+      "notes": "Add/edit meds, daily tracking. Custom time/frequency, clearable type, SMS phone field. Missing: edit/delete existing meds, smsPhone not sent to API, labs upload no-op"
     },
     {
       "name": "SOS Breathing",
@@ -272,7 +287,7 @@
         "/api/sos POST",
         "/api/sos GET"
       ],
-      "notes": "Animated breathing exercise, saves events to API. Reusable (state resets on done). Hot flash logging posts directly to /api/logs"
+      "notes": "Animated breathing exercise. Reusable (state resets). Hot flash logs to /api/logs. Missing: no state reset via back gesture"
     },
     {
       "name": "Calendar View",
@@ -283,7 +298,7 @@
       "endpoints": [
         "/api/logs GET"
       ],
-      "notes": "Month view with AM/PM dots, 45-day range"
+      "notes": "Month view with AM/PM dots. symptomsJson count fixed (was Array.isArray, now Object.keys). Missing: only fetches 45 days but allows unlimited month nav"
     },
     {
       "name": "Learn / Articles",
@@ -310,7 +325,7 @@
         "/api/profile GET",
         "/api/profile POST"
       ],
-      "notes": "View/edit profile. No PUT endpoint for partial updates"
+      "notes": "View/edit profile. Missing: delete account doesn't purge backend data, subscription buttons are no-ops, about-me fields don't match Profile type, stage value domain mismatch with onboarding"
     },
     {
       "name": "Authentication",
@@ -383,7 +398,7 @@
         "/api/subscription GET",
         "/api/webhooks/revenuecat POST"
       ],
-      "notes": "Backend has RevenueCat webhook + subscription check. No paywall screen in app"
+      "notes": "Backend has RevenueCat webhook + subscription check. No paywall screen in app. Profile subscription buttons are no-ops"
     },
     {
       "name": "Push Notifications",
@@ -422,7 +437,7 @@
       "status": "not-started",
       "screens": [],
       "endpoints": [],
-      "notes": "DB has customSymptoms field in profiles. No dedicated screen"
+      "notes": "DB has customSymptoms field in profiles. No dedicated screen. Custom symptoms can be added during check-in flow"
     },
     {
       "name": "Programs / Lessons",
@@ -765,8 +780,7 @@
         "calls": [
           "/api/logs?range=${range}",
           "/api/insights/correlations",
-          "/api/insights/benchmarks",
-          "/api/logs?date=${todayDate}"
+          "/api/insights/benchmarks"
         ]
       },
       {
@@ -836,8 +850,7 @@
       {
         "screen": "sos.tsx",
         "calls": [
-          "/api/sos",
-          "/api/logs"
+          "/api/sos"
         ]
       },
       {
