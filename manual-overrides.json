@@ -1,0 +1,193 @@
+{
+  "totalSpecScreens": 47,
+  "features": [
+    {
+      "name": "Morning & Evening Check-in",
+      "status": "connected",
+      "screens": ["quick-log.tsx"],
+      "endpoints": ["/api/logs POST", "/api/logs GET", "/api/profile GET", "/api/medications GET", "/api/medications/logs POST"],
+      "notes": "5-step AM + 5-step PM flow with meds step, fully API-connected"
+    },
+    {
+      "name": "Detailed Symptom Log",
+      "status": "connected",
+      "screens": ["detailed-log.tsx"],
+      "endpoints": ["/api/logs POST"],
+      "notes": "5-tab logging (body, mood, sleep, context, cycle)"
+    },
+    {
+      "name": "Home Dashboard",
+      "status": "connected",
+      "screens": ["index.tsx"],
+      "endpoints": ["/api/logs GET", "/api/medications GET", "/api/medications/logs GET", "/api/articles GET", "/api/insights/home GET"],
+      "notes": "Readiness score, 7-day strip, meds, journal card, tonight's plan"
+    },
+    {
+      "name": "Insights & Patterns",
+      "status": "connected",
+      "screens": ["insights.tsx", "symptom-detail.tsx"],
+      "endpoints": ["/api/logs GET", "/api/insights/correlations GET", "/api/insights/benchmarks GET"],
+      "notes": "Pattern detection, correlations, benchmark comparisons"
+    },
+    {
+      "name": "Journal",
+      "status": "partial",
+      "screens": ["journal.tsx"],
+      "endpoints": ["/api/logs GET", "/api/insights/home GET"],
+      "notes": "Landing screen built. AM/PM/Done/Week screens declared in nav but files missing"
+    },
+    {
+      "name": "Medications",
+      "status": "connected",
+      "screens": ["meds.tsx"],
+      "endpoints": ["/api/meds GET", "/api/meds POST", "/api/meds/[id]/log POST", "/api/meds/logs GET"],
+      "notes": "Add/edit/delete meds, daily tracking, adherence view"
+    },
+    {
+      "name": "SOS Breathing",
+      "status": "connected",
+      "screens": ["sos.tsx"],
+      "endpoints": ["/api/sos POST", "/api/sos GET"],
+      "notes": "Animated breathing exercise, saves events to API"
+    },
+    {
+      "name": "Calendar View",
+      "status": "connected",
+      "screens": ["calendar.tsx"],
+      "endpoints": ["/api/logs GET"],
+      "notes": "Month view with AM/PM dots, 45-day range"
+    },
+    {
+      "name": "Learn / Articles",
+      "status": "connected",
+      "screens": ["learn.tsx", "article.tsx"],
+      "endpoints": ["/api/articles GET", "/api/articles/[id] GET"],
+      "notes": "Article list + reader. Emoji placeholders for thumbnails"
+    },
+    {
+      "name": "Profile & Settings",
+      "status": "connected",
+      "screens": ["profile.tsx", "edit-profile.tsx", "about-me.tsx"],
+      "endpoints": ["/api/profile GET", "/api/profile POST"],
+      "notes": "View/edit profile. No PUT endpoint for partial updates"
+    },
+    {
+      "name": "Authentication",
+      "status": "complete",
+      "screens": ["sign-in.tsx", "sign-up.tsx", "welcome.tsx"],
+      "endpoints": [],
+      "notes": "Clerk auth with email + Apple Sign-In"
+    },
+    {
+      "name": "Onboarding",
+      "status": "complete",
+      "screens": ["about-you.tsx", "stage.tsx", "val-stage.tsx", "symptoms.tsx", "val-symptoms.tsx", "goals.tsx", "quiz-intro.tsx", "quiz-q1.tsx", "quiz-q2.tsx", "quiz-q3.tsx", "quiz-results.tsx", "notif-setup.tsx", "done.tsx"],
+      "endpoints": ["/api/profile POST"],
+      "notes": "12 onboarding screens, saves profile at completion"
+    },
+    {
+      "name": "Export Data",
+      "status": "ui-only",
+      "screens": ["export-data.tsx"],
+      "endpoints": [],
+      "notes": "UI built with PDF/CSV options. No actual export generation backend"
+    },
+    {
+      "name": "Legal Pages",
+      "status": "ui-only",
+      "screens": ["legal.tsx", "terms.tsx", "privacy.tsx"],
+      "endpoints": [],
+      "notes": "Static content. Medical Disclaimer & SMS Terms routes are null"
+    },
+    {
+      "name": "Help & Feedback",
+      "status": "ui-only",
+      "screens": ["help-feedback.tsx"],
+      "endpoints": [],
+      "notes": "FAQ and feedback form UI, no submission backend"
+    },
+    {
+      "name": "Paywall / Subscriptions",
+      "status": "partial",
+      "screens": [],
+      "endpoints": ["/api/subscription GET", "/api/webhooks/revenuecat POST"],
+      "notes": "Backend has RevenueCat webhook + subscription check. No paywall screen in app"
+    },
+    {
+      "name": "Push Notifications",
+      "status": "partial",
+      "screens": [],
+      "endpoints": ["/api/push-token GET", "/api/push-token POST", "/api/cron/notifications GET"],
+      "notes": "Token registration + cron job work. No user-facing settings screen"
+    },
+    {
+      "name": "Wearables / Health Sync",
+      "status": "not-started",
+      "screens": [],
+      "endpoints": [],
+      "notes": "DB schema exists (healthData table). No endpoints, no screen"
+    },
+    {
+      "name": "Report Builder",
+      "status": "not-started",
+      "screens": [],
+      "endpoints": [],
+      "notes": "In wireframe spec. No screen, no endpoint"
+    },
+    {
+      "name": "QR Code Funnel",
+      "status": "not-started",
+      "screens": [],
+      "endpoints": [],
+      "notes": "Wireframe spec has 6 screens. Not started"
+    },
+    {
+      "name": "Custom Tracking",
+      "status": "not-started",
+      "screens": [],
+      "endpoints": [],
+      "notes": "DB has customSymptoms field in profiles. No dedicated screen"
+    },
+    {
+      "name": "Programs / Lessons",
+      "status": "not-started",
+      "screens": [],
+      "endpoints": [],
+      "notes": "DB has programProgress table. No endpoints, no screens"
+    }
+  ],
+  "uxChecklist": [
+    { "name": "Stone color palette", "done": true },
+    { "name": "AnimatedPressable haptics", "done": true },
+    { "name": "Custom FAB log button", "done": true },
+    { "name": "Empty states", "done": true },
+    { "name": "Loading states", "done": true },
+    { "name": "Design system / component library", "done": false },
+    { "name": "Custom typography (beyond SpaceMono)", "done": false },
+    { "name": "Real thumbnail images (not emoji)", "done": false },
+    { "name": "Loading skeletons", "done": false },
+    { "name": "Comprehensive error states", "done": false },
+    { "name": "Dark mode support", "done": false },
+    { "name": "App store marketing assets", "done": false }
+  ],
+  "aiSystems": [
+    { "name": "Readiness scoring algorithm", "done": true },
+    { "name": "Correlation engine (lag analysis)", "done": true },
+    { "name": "Benchmark aggregation (cohorts)", "done": true },
+    { "name": "AI narrative generation (Claude)", "done": true },
+    { "name": "Narratives enabled in production", "done": false }
+  ],
+  "infraChecklist": [
+    { "name": "Vercel deployment (API)", "done": true },
+    { "name": "Vercel cron jobs (5 scheduled)", "done": true },
+    { "name": "Clerk auth (both repos)", "done": true },
+    { "name": "RevenueCat webhook", "done": true },
+    { "name": "CI/CD pipeline (GitHub Actions)", "done": false },
+    { "name": "Test suite (app)", "done": false },
+    { "name": "Test suite (API)", "done": false },
+    { "name": "Input validation (Zod schemas)", "done": false },
+    { "name": "Rate limiting", "done": false },
+    { "name": "Error monitoring (Sentry etc.)", "done": false },
+    { "name": "API documentation", "done": false }
+  ]
+}

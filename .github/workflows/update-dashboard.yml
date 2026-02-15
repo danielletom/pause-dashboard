@@ -1,0 +1,37 @@
+name: Update Dashboard
+
+on:
+  repository_dispatch:
+    types: [repo-updated]
+  workflow_dispatch:
+
+jobs:
+  scan:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/checkout@v4
+        with:
+          repository: ${{ github.repository_owner }}/pause-app
+          path: repos/pause-app
+          token: ${{ secrets.DASHBOARD_PAT }}
+
+      - uses: actions/checkout@v4
+        with:
+          repository: ${{ github.repository_owner }}/pause-api
+          path: repos/pause-api
+          token: ${{ secrets.DASHBOARD_PAT }}
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Run scanner
+        run: node scripts/scan.mjs --app-path repos/pause-app --api-path repos/pause-api --output dashboard-data.json
+
+      - name: Commit updated data
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "chore: update dashboard data"
+          file_pattern: dashboard-data.json

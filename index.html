@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pause · Project Dashboard</title>
+<style>
+  :root {
+    --bg: #111110;
+    --surface: #1c1b1a;
+    --card: #262524;
+    --card-hover: #2e2d2b;
+    --border: #3a3938;
+    --text: #fafaf9;
+    --text-secondary: #a8a29e;
+    --text-muted: #78716c;
+    --amber: #fbbf24;
+    --amber-dim: rgba(251,191,36,0.15);
+    --indigo: #818cf8;
+    --indigo-dim: rgba(129,140,248,0.15);
+    --green: #34d399;
+    --green-dim: rgba(52,211,153,0.15);
+    --red: #f87171;
+    --red-dim: rgba(248,113,113,0.15);
+    --blue: #60a5fa;
+    --blue-dim: rgba(96,165,250,0.15);
+    --gray: #a8a29e;
+    --gray-dim: rgba(168,162,158,0.15);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+    line-height: 1.5;
+    padding: 24px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  /* ─── Header ─── */
+  .header {
+    text-align: center;
+    padding: 32px 0 16px;
+  }
+  .header h1 {
+    font-size: 28px;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+  }
+  .header h1 span { color: var(--amber); }
+  .header .subtitle {
+    color: var(--text-secondary);
+    font-size: 14px;
+    margin-top: 4px;
+  }
+  .header .updated {
+    color: var(--text-muted);
+    font-size: 12px;
+    margin-top: 8px;
+  }
+
+  /* ─── Overall Ring ─── */
+  .ring-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 32px 0;
+  }
+  .ring-wrap {
+    position: relative;
+    width: 180px;
+    height: 180px;
+  }
+  .ring-wrap svg {
+    transform: rotate(-90deg);
+    width: 180px;
+    height: 180px;
+  }
+  .ring-bg { stroke: var(--border); }
+  .ring-fg {
+    stroke: var(--amber);
+    transition: stroke-dasharray 1.5s ease;
+  }
+  .ring-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+  }
+  .ring-text .pct {
+    font-size: 42px;
+    font-weight: 800;
+    letter-spacing: -2px;
+    line-height: 1;
+  }
+  .ring-text .pct-sign { font-size: 20px; color: var(--text-secondary); }
+  .ring-text .label {
+    font-size: 13px;
+    color: var(--text-muted);
+    margin-top: 4px;
+  }
+
+  /* ─── Category Grid ─── */
+  .cat-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 12px;
+    margin: 8px 0 32px;
+  }
+  .cat-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px;
+    cursor: pointer;
+    transition: background 0.15s;
+  }
+  .cat-card:hover { background: var(--card-hover); }
+  .cat-card-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+  }
+  .cat-card-label {
+    font-size: 14px;
+    font-weight: 600;
+  }
+  .cat-card-pct {
+    font-size: 22px;
+    font-weight: 800;
+    letter-spacing: -1px;
+  }
+  .cat-bar-track {
+    height: 6px;
+    background: var(--border);
+    border-radius: 3px;
+    overflow: hidden;
+  }
+  .cat-bar-fill {
+    height: 100%;
+    border-radius: 3px;
+    transition: width 1s ease;
+  }
+  .cat-card-detail {
+    font-size: 12px;
+    color: var(--text-muted);
+    margin-top: 8px;
+  }
+  .cat-expand {
+    display: none;
+    margin-top: 14px;
+    padding-top: 14px;
+    border-top: 1px solid var(--border);
+  }
+  .cat-card.open .cat-expand { display: block; }
+  .cat-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 4px 0;
+    font-size: 13px;
+  }
+  .cat-item-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+  .cat-item-name { color: var(--text-secondary); }
+  .cat-item.done .cat-item-name { color: var(--text); }
+
+  /* ─── Section Headers ─── */
+  .section-title {
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 16px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  /* ─── Feature Tracker ─── */
+  .feature-section { margin-bottom: 40px; }
+  .feature-row {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    margin-bottom: 6px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: background 0.15s;
+  }
+  .feature-row:hover { background: var(--card-hover); }
+  .feature-head {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 16px;
+  }
+  .badge {
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    padding: 3px 8px;
+    border-radius: 6px;
+    flex-shrink: 0;
+  }
+  .badge-complete { background: var(--green-dim); color: var(--green); }
+  .badge-connected { background: var(--blue-dim); color: var(--blue); }
+  .badge-partial { background: var(--amber-dim); color: var(--amber); }
+  .badge-ui-only { background: var(--gray-dim); color: var(--gray); }
+  .badge-not-started { background: var(--red-dim); color: var(--red); }
+  .feature-name {
+    font-size: 14px;
+    font-weight: 500;
+    flex: 1;
+  }
+  .feature-arrow {
+    color: var(--text-muted);
+    font-size: 12px;
+    transition: transform 0.2s;
+  }
+  .feature-row.open .feature-arrow { transform: rotate(90deg); }
+  .feature-detail {
+    display: none;
+    padding: 0 16px 14px;
+    font-size: 12px;
+    color: var(--text-secondary);
+    line-height: 1.8;
+  }
+  .feature-row.open .feature-detail { display: block; }
+  .feature-detail strong { color: var(--text); }
+  .feature-tag {
+    display: inline-block;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 1px 6px;
+    font-size: 11px;
+    font-family: 'SF Mono', 'Fira Code', monospace;
+    margin: 2px 2px;
+    color: var(--text-muted);
+  }
+
+  /* ─── Connectivity Map ─── */
+  .conn-section { margin-bottom: 40px; }
+  .conn-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+  }
+  .conn-table th {
+    text-align: left;
+    color: var(--text-muted);
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    padding: 8px 12px;
+    border-bottom: 1px solid var(--border);
+  }
+  .conn-table td {
+    padding: 10px 12px;
+    border-bottom: 1px solid var(--border);
+    vertical-align: top;
+  }
+  .conn-table tr:hover td { background: var(--surface); }
+  .conn-screen {
+    font-family: 'SF Mono', 'Fira Code', monospace;
+    font-size: 12px;
+    color: var(--amber);
+  }
+  .conn-endpoint {
+    font-family: 'SF Mono', 'Fira Code', monospace;
+    font-size: 11px;
+    color: var(--text-secondary);
+    display: block;
+    margin: 1px 0;
+  }
+  .conn-dot {
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--green);
+    margin-right: 6px;
+  }
+
+  /* Orphans */
+  .orphan-section {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 16px;
+    margin-top: 16px;
+  }
+  .orphan-title {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--amber);
+    margin-bottom: 8px;
+  }
+  .orphan-item {
+    font-family: 'SF Mono', 'Fira Code', monospace;
+    font-size: 12px;
+    color: var(--text-muted);
+    padding: 3px 0;
+  }
+
+  /* ─── Missing Screens ─── */
+  .missing-section {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 16px;
+    margin-bottom: 24px;
+  }
+  .missing-title {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--red);
+    margin-bottom: 8px;
+  }
+  .missing-item {
+    font-family: 'SF Mono', 'Fira Code', monospace;
+    font-size: 12px;
+    color: var(--text-muted);
+    padding: 3px 0;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .missing-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--red);
+    flex-shrink: 0;
+  }
+
+  /* ─── Footer ─── */
+  .footer {
+    text-align: center;
+    padding: 32px 0;
+    font-size: 12px;
+    color: var(--text-muted);
+    border-top: 1px solid var(--border);
+    margin-top: 16px;
+  }
+  .footer a {
+    color: var(--amber);
+    text-decoration: none;
+  }
+  .footer a:hover { text-decoration: underline; }
+  .commit-info {
+    display: flex;
+    justify-content: center;
+    gap: 24px;
+    margin-top: 8px;
+    flex-wrap: wrap;
+  }
+  .commit-tag {
+    font-family: 'SF Mono', 'Fira Code', monospace;
+    font-size: 11px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 2px 8px;
+  }
+
+  /* ─── Loading ─── */
+  .loading {
+    text-align: center;
+    padding: 80px 0;
+    color: var(--text-muted);
+  }
+  .loading-spin {
+    display: inline-block;
+    width: 24px;
+    height: 24px;
+    border: 2px solid var(--border);
+    border-top-color: var(--amber);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+    margin-bottom: 12px;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  /* ─── Responsive ─── */
+  @media (max-width: 640px) {
+    body { padding: 16px; }
+    .cat-grid { grid-template-columns: 1fr; }
+    .header h1 { font-size: 22px; }
+    .ring-wrap { width: 140px; height: 140px; }
+    .ring-wrap svg { width: 140px; height: 140px; }
+    .ring-text .pct { font-size: 34px; }
+    .conn-table { font-size: 11px; }
+    .commit-info { flex-direction: column; align-items: center; }
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1><span>Pause</span> · Project Dashboard</h1>
+  <div class="subtitle">Menopause tracking app — build progress</div>
+  <div class="updated" id="updated"></div>
+</div>
+
+<div class="ring-section">
+  <div class="ring-wrap">
+    <svg viewBox="0 0 180 180">
+      <circle class="ring-bg" cx="90" cy="90" r="78" fill="none" stroke-width="8"/>
+      <circle class="ring-fg" id="ring" cx="90" cy="90" r="78" fill="none" stroke-width="8"
+        stroke-linecap="round" stroke-dasharray="0 490"/>
+    </svg>
+    <div class="ring-text">
+      <div class="pct" id="ring-pct">—</div>
+      <div class="label" id="ring-label"></div>
+    </div>
+  </div>
+</div>
+
+<div class="cat-grid" id="cat-grid"></div>
+
+<div class="missing-section" id="missing-section" style="display:none"></div>
+
+<div class="feature-section">
+  <div class="section-title">Feature Tracker</div>
+  <div id="feature-list"></div>
+</div>
+
+<div class="conn-section">
+  <div class="section-title">Data Connectivity</div>
+  <table class="conn-table" id="conn-table">
+    <thead><tr><th>Screen</th><th>API Endpoints</th></tr></thead>
+    <tbody id="conn-body"></tbody>
+  </table>
+  <div class="orphan-section" id="orphan-section" style="display:none"></div>
+</div>
+
+<div class="footer">
+  <div>Pause Project Dashboard</div>
+  <div class="commit-info" id="commit-info"></div>
+</div>
+
+<div class="loading" id="loading">
+  <div class="loading-spin"></div>
+  <div>Loading dashboard data...</div>
+</div>
+
+<script>
+(async function() {
+  const loadingEl = document.getElementById('loading');
+  let data;
+
+  try {
+    const res = await fetch('dashboard-data.json');
+    data = await res.json();
+  } catch (e) {
+    loadingEl.innerHTML = '<div style="color:var(--red)">Could not load dashboard-data.json</div><div style="margin-top:8px;color:var(--text-muted)">Run the scanner first: node scripts/scan.mjs</div>';
+    return;
+  }
+
+  loadingEl.style.display = 'none';
+
+  // ─── Helpers ───
+  function timeAgo(iso) {
+    const diff = Date.now() - new Date(iso).getTime();
+    const mins = Math.floor(diff / 60000);
+    if (mins < 1) return 'just now';
+    if (mins < 60) return mins + ' min ago';
+    const hrs = Math.floor(mins / 60);
+    if (hrs < 24) return hrs + 'h ago';
+    const days = Math.floor(hrs / 24);
+    return days + 'd ago';
+  }
+
+  function barColor(pct) {
+    if (pct >= 75) return 'var(--green)';
+    if (pct >= 50) return 'var(--amber)';
+    return 'var(--red)';
+  }
+
+  function badgeClass(status) {
+    return 'badge badge-' + status.replace(/\s+/g, '-');
+  }
+
+  function badgeLabel(status) {
+    const map = { 'complete': 'Complete', 'connected': 'Connected', 'partial': 'Partial', 'ui-only': 'UI Only', 'not-started': 'Not Started' };
+    return map[status] || status;
+  }
+
+  // ─── Header ───
+  document.getElementById('updated').textContent = 'Updated ' + timeAgo(data.generatedAt);
+
+  // ─── Ring ───
+  const ringPct = data.overall.percent;
+  const circumference = 2 * Math.PI * 78;
+  document.getElementById('ring-pct').innerHTML = ringPct + '<span class="pct-sign">%</span>';
+  document.getElementById('ring-label').textContent = data.overall.label;
+
+  // Animate ring
+  setTimeout(() => {
+    const arc = (ringPct / 100) * circumference;
+    document.getElementById('ring').setAttribute('stroke-dasharray', arc + ' ' + (circumference - arc));
+  }, 100);
+
+  // ─── Category Cards ───
+  const grid = document.getElementById('cat-grid');
+  const catIcons = { ui: '📱', ux: '🎨', api: '🔌', ai: '🧠', features: '✨', infra: '🏗️' };
+
+  for (const [key, cat] of Object.entries(data.categories)) {
+    const card = document.createElement('div');
+    card.className = 'cat-card';
+    card.onclick = () => card.classList.toggle('open');
+
+    let expandHTML = '';
+    if (cat.items && cat.items.length > 0) {
+      expandHTML = '<div class="cat-expand">' + cat.items.map(item =>
+        '<div class="cat-item ' + (item.done ? 'done' : '') + '">' +
+        '<div class="cat-item-dot" style="background:' + (item.done ? 'var(--green)' : 'var(--border)') + '"></div>' +
+        '<span class="cat-item-name">' + item.name + '</span></div>'
+      ).join('') + '</div>';
+    } else if (key === 'api' && cat.endpoints) {
+      expandHTML = '<div class="cat-expand">' +
+        '<div class="cat-item"><span class="cat-item-name">GET: ' + cat.endpoints.GET + ' endpoints</span></div>' +
+        '<div class="cat-item"><span class="cat-item-name">POST: ' + cat.endpoints.POST + ' endpoints</span></div>' +
+        '<div class="cat-item"><span class="cat-item-name">PUT: ' + cat.endpoints.PUT + ' endpoints</span></div>' +
+        '<div class="cat-item"><span class="cat-item-name">DELETE: ' + cat.endpoints.DELETE + ' endpoints</span></div>' +
+        '</div>';
+    } else if (key === 'ui') {
+      expandHTML = '<div class="cat-expand"><div class="cat-item"><span class="cat-item-name">' +
+        cat.built + ' screens built, ' + (cat.total - cat.built) + ' remaining from spec</span></div></div>';
+    }
+
+    card.innerHTML =
+      '<div class="cat-card-head">' +
+        '<span class="cat-card-label">' + (catIcons[key] || '') + ' ' + cat.label + '</span>' +
+        '<span class="cat-card-pct" style="color:' + barColor(cat.percent) + '">' + cat.percent + '%</span>' +
+      '</div>' +
+      '<div class="cat-bar-track"><div class="cat-bar-fill" style="width:' + Math.min(cat.percent, 100) + '%;background:' + barColor(cat.percent) + '"></div></div>' +
+      '<div class="cat-card-detail">' + (cat.detail || '') + '</div>' +
+      expandHTML;
+
+    grid.appendChild(card);
+  }
+
+  // ─── Missing Screens ───
+  if (data.screens && data.screens.missing && data.screens.missing.length > 0) {
+    const ms = document.getElementById('missing-section');
+    ms.style.display = 'block';
+    ms.innerHTML =
+      '<div class="missing-title">⚠ ' + data.screens.missing.length + ' screens declared in navigation but not built yet</div>' +
+      data.screens.missing.map(s =>
+        '<div class="missing-item"><div class="missing-dot"></div>' + s + '.tsx</div>'
+      ).join('');
+  }
+
+  // ─── Feature Tracker ───
+  const featureList = document.getElementById('feature-list');
+  // Sort: complete first, then connected, partial, ui-only, not-started
+  const statusOrder = { 'complete': 0, 'connected': 1, 'partial': 2, 'ui-only': 3, 'not-started': 4 };
+  const sortedFeatures = [...data.features].sort((a, b) => (statusOrder[a.status] || 5) - (statusOrder[b.status] || 5));
+
+  for (const feat of sortedFeatures) {
+    const row = document.createElement('div');
+    row.className = 'feature-row';
+    row.onclick = () => row.classList.toggle('open');
+
+    let detailHTML = '';
+    if (feat.notes) detailHTML += '<div>' + feat.notes + '</div>';
+    if (feat.screens && feat.screens.length > 0) {
+      detailHTML += '<div style="margin-top:6px"><strong>Screens:</strong> ' +
+        feat.screens.map(s => '<span class="feature-tag">' + s + '</span>').join(' ') + '</div>';
+    }
+    if (feat.endpoints && feat.endpoints.length > 0) {
+      detailHTML += '<div style="margin-top:4px"><strong>Endpoints:</strong> ' +
+        feat.endpoints.map(e => '<span class="feature-tag">' + e + '</span>').join(' ') + '</div>';
+    }
+
+    row.innerHTML =
+      '<div class="feature-head">' +
+        '<span class="' + badgeClass(feat.status) + '">' + badgeLabel(feat.status) + '</span>' +
+        '<span class="feature-name">' + feat.name + '</span>' +
+        '<span class="feature-arrow">▶</span>' +
+      '</div>' +
+      '<div class="feature-detail">' + detailHTML + '</div>';
+
+    featureList.appendChild(row);
+  }
+
+  // ─── Connectivity Map ───
+  const connBody = document.getElementById('conn-body');
+  if (data.connectivity && data.connectivity.map) {
+    for (const entry of data.connectivity.map) {
+      const tr = document.createElement('tr');
+      tr.innerHTML =
+        '<td><span class="conn-screen">' + entry.screen + '</span></td>' +
+        '<td>' + entry.calls.map(c => '<span class="conn-endpoint"><span class="conn-dot"></span>' + c + '</span>').join('') + '</td>';
+      connBody.appendChild(tr);
+    }
+  }
+
+  // Orphan endpoints
+  if (data.connectivity && data.connectivity.orphanEndpoints && data.connectivity.orphanEndpoints.length > 0) {
+    const orphSec = document.getElementById('orphan-section');
+    orphSec.style.display = 'block';
+    orphSec.innerHTML =
+      '<div class="orphan-title">⚠ Orphan endpoints — backend exists but no app screen calls them</div>' +
+      data.connectivity.orphanEndpoints.map(e =>
+        '<div class="orphan-item">' + e + '</div>'
+      ).join('');
+  }
+
+  // ─── Footer ───
+  const commitInfo = document.getElementById('commit-info');
+  if (data.commitInfo) {
+    let html = '';
+    if (data.commitInfo.app) {
+      html += '<div>📱 App: <span class="commit-tag">' + data.commitInfo.app.sha + '</span> ' + (data.commitInfo.app.message || '').substring(0, 50) + '</div>';
+    }
+    if (data.commitInfo.api) {
+      html += '<div>🔌 API: <span class="commit-tag">' + data.commitInfo.api.sha + '</span> ' + (data.commitInfo.api.message || '').substring(0, 50) + '</div>';
+    }
+    commitInfo.innerHTML = html;
+  }
+
+  // Animate bars on load
+  setTimeout(() => {
+    document.querySelectorAll('.cat-bar-fill').forEach(bar => {
+      bar.style.width = bar.style.width; // trigger reflow
+    });
+  }, 50);
+})();
+</script>
+</body>
+</html>

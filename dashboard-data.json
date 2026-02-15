@@ -1,0 +1,848 @@
+{
+  "generatedAt": "2026-02-15T07:18:24.937Z",
+  "commitInfo": {
+    "app": {
+      "sha": "8ae0e54",
+      "message": "Wireframe v3: complete UI overhaul with onboarding, quick-log, insights, and new screens",
+      "date": "2026-02-13 12:39:39 +0800"
+    },
+    "api": {
+      "sha": "30c1685",
+      "message": "Add intelligence layer: scores, benchmarks, correlations, AI narratives, subscriptions",
+      "date": "2026-02-13 12:40:00 +0800"
+    }
+  },
+  "overall": {
+    "percent": 60,
+    "label": "Building"
+  },
+  "categories": {
+    "ui": {
+      "label": "Screens & UI",
+      "percent": 77,
+      "built": 36,
+      "total": 47,
+      "detail": "36 of 47 screens built"
+    },
+    "ux": {
+      "label": "Design & Polish",
+      "percent": 42,
+      "items": [
+        {
+          "name": "Stone color palette",
+          "done": true
+        },
+        {
+          "name": "AnimatedPressable haptics",
+          "done": true
+        },
+        {
+          "name": "Custom FAB log button",
+          "done": true
+        },
+        {
+          "name": "Empty states",
+          "done": true
+        },
+        {
+          "name": "Loading states",
+          "done": true
+        },
+        {
+          "name": "Design system / component library",
+          "done": false
+        },
+        {
+          "name": "Custom typography (beyond SpaceMono)",
+          "done": false
+        },
+        {
+          "name": "Real thumbnail images (not emoji)",
+          "done": false
+        },
+        {
+          "name": "Loading skeletons",
+          "done": false
+        },
+        {
+          "name": "Comprehensive error states",
+          "done": false
+        },
+        {
+          "name": "Dark mode support",
+          "done": false
+        },
+        {
+          "name": "App store marketing assets",
+          "done": false
+        }
+      ],
+      "detail": "5 of 12 checklist items"
+    },
+    "api": {
+      "label": "Backend API",
+      "percent": 54,
+      "endpoints": {
+        "GET": 18,
+        "POST": 7,
+        "PUT": 0,
+        "DELETE": 0,
+        "PATCH": 0
+      },
+      "detail": "20 endpoints, no PUT/DELETE"
+    },
+    "ai": {
+      "label": "Intelligence",
+      "percent": 80,
+      "items": [
+        {
+          "name": "Readiness scoring algorithm",
+          "done": true
+        },
+        {
+          "name": "Correlation engine (lag analysis)",
+          "done": true
+        },
+        {
+          "name": "Benchmark aggregation (cohorts)",
+          "done": true
+        },
+        {
+          "name": "AI narrative generation (Claude)",
+          "done": true
+        },
+        {
+          "name": "Narratives enabled in production",
+          "done": false
+        }
+      ],
+      "detail": "4 of 5 systems active"
+    },
+    "features": {
+      "label": "End-to-End Features",
+      "percent": 55,
+      "detail": "22 features tracked"
+    },
+    "infra": {
+      "label": "Infrastructure",
+      "percent": 36,
+      "items": [
+        {
+          "name": "Vercel deployment (API)",
+          "done": true
+        },
+        {
+          "name": "Vercel cron jobs (5 scheduled)",
+          "done": true
+        },
+        {
+          "name": "Clerk auth (both repos)",
+          "done": true
+        },
+        {
+          "name": "RevenueCat webhook",
+          "done": true
+        },
+        {
+          "name": "CI/CD pipeline (GitHub Actions)",
+          "done": false
+        },
+        {
+          "name": "Test suite (app)",
+          "done": false
+        },
+        {
+          "name": "Test suite (API)",
+          "done": false
+        },
+        {
+          "name": "Input validation (Zod schemas)",
+          "done": false
+        },
+        {
+          "name": "Rate limiting",
+          "done": false
+        },
+        {
+          "name": "Error monitoring (Sentry etc.)",
+          "done": false
+        },
+        {
+          "name": "API documentation",
+          "done": false
+        }
+      ],
+      "detail": "4 of 11 items done"
+    }
+  },
+  "features": [
+    {
+      "name": "Morning & Evening Check-in",
+      "status": "connected",
+      "screens": [
+        "quick-log.tsx"
+      ],
+      "endpoints": [
+        "/api/logs POST",
+        "/api/logs GET",
+        "/api/profile GET",
+        "/api/medications GET",
+        "/api/medications/logs POST"
+      ],
+      "notes": "5-step AM + 5-step PM flow with meds step, fully API-connected"
+    },
+    {
+      "name": "Detailed Symptom Log",
+      "status": "connected",
+      "screens": [
+        "detailed-log.tsx"
+      ],
+      "endpoints": [
+        "/api/logs POST"
+      ],
+      "notes": "5-tab logging (body, mood, sleep, context, cycle)"
+    },
+    {
+      "name": "Home Dashboard",
+      "status": "connected",
+      "screens": [
+        "index.tsx"
+      ],
+      "endpoints": [
+        "/api/logs GET",
+        "/api/medications GET",
+        "/api/medications/logs GET",
+        "/api/articles GET",
+        "/api/insights/home GET"
+      ],
+      "notes": "Readiness score, 7-day strip, meds, journal card, tonight's plan"
+    },
+    {
+      "name": "Insights & Patterns",
+      "status": "connected",
+      "screens": [
+        "insights.tsx",
+        "symptom-detail.tsx"
+      ],
+      "endpoints": [
+        "/api/logs GET",
+        "/api/insights/correlations GET",
+        "/api/insights/benchmarks GET"
+      ],
+      "notes": "Pattern detection, correlations, benchmark comparisons"
+    },
+    {
+      "name": "Journal",
+      "status": "partial",
+      "screens": [
+        "journal.tsx"
+      ],
+      "endpoints": [
+        "/api/logs GET",
+        "/api/insights/home GET"
+      ],
+      "notes": "Landing screen built. AM/PM/Done/Week screens declared in nav but files missing"
+    },
+    {
+      "name": "Medications",
+      "status": "connected",
+      "screens": [
+        "meds.tsx"
+      ],
+      "endpoints": [
+        "/api/meds GET",
+        "/api/meds POST",
+        "/api/meds/[id]/log POST",
+        "/api/meds/logs GET"
+      ],
+      "notes": "Add/edit/delete meds, daily tracking, adherence view"
+    },
+    {
+      "name": "SOS Breathing",
+      "status": "connected",
+      "screens": [
+        "sos.tsx"
+      ],
+      "endpoints": [
+        "/api/sos POST",
+        "/api/sos GET"
+      ],
+      "notes": "Animated breathing exercise, saves events to API"
+    },
+    {
+      "name": "Calendar View",
+      "status": "connected",
+      "screens": [
+        "calendar.tsx"
+      ],
+      "endpoints": [
+        "/api/logs GET"
+      ],
+      "notes": "Month view with AM/PM dots, 45-day range"
+    },
+    {
+      "name": "Learn / Articles",
+      "status": "connected",
+      "screens": [
+        "learn.tsx",
+        "article.tsx"
+      ],
+      "endpoints": [
+        "/api/articles GET",
+        "/api/articles/[id] GET"
+      ],
+      "notes": "Article list + reader. Emoji placeholders for thumbnails"
+    },
+    {
+      "name": "Profile & Settings",
+      "status": "connected",
+      "screens": [
+        "profile.tsx",
+        "edit-profile.tsx",
+        "about-me.tsx"
+      ],
+      "endpoints": [
+        "/api/profile GET",
+        "/api/profile POST"
+      ],
+      "notes": "View/edit profile. No PUT endpoint for partial updates"
+    },
+    {
+      "name": "Authentication",
+      "status": "complete",
+      "screens": [
+        "sign-in.tsx",
+        "sign-up.tsx",
+        "welcome.tsx"
+      ],
+      "endpoints": [],
+      "notes": "Clerk auth with email + Apple Sign-In"
+    },
+    {
+      "name": "Onboarding",
+      "status": "complete",
+      "screens": [
+        "about-you.tsx",
+        "stage.tsx",
+        "val-stage.tsx",
+        "symptoms.tsx",
+        "val-symptoms.tsx",
+        "goals.tsx",
+        "quiz-intro.tsx",
+        "quiz-q1.tsx",
+        "quiz-q2.tsx",
+        "quiz-q3.tsx",
+        "quiz-results.tsx",
+        "notif-setup.tsx",
+        "done.tsx"
+      ],
+      "endpoints": [
+        "/api/profile POST"
+      ],
+      "notes": "12 onboarding screens, saves profile at completion"
+    },
+    {
+      "name": "Export Data",
+      "status": "ui-only",
+      "screens": [
+        "export-data.tsx"
+      ],
+      "endpoints": [],
+      "notes": "UI built with PDF/CSV options. No actual export generation backend"
+    },
+    {
+      "name": "Legal Pages",
+      "status": "ui-only",
+      "screens": [
+        "legal.tsx",
+        "terms.tsx",
+        "privacy.tsx"
+      ],
+      "endpoints": [],
+      "notes": "Static content. Medical Disclaimer & SMS Terms routes are null"
+    },
+    {
+      "name": "Help & Feedback",
+      "status": "ui-only",
+      "screens": [
+        "help-feedback.tsx"
+      ],
+      "endpoints": [],
+      "notes": "FAQ and feedback form UI, no submission backend"
+    },
+    {
+      "name": "Paywall / Subscriptions",
+      "status": "partial",
+      "screens": [],
+      "endpoints": [
+        "/api/subscription GET",
+        "/api/webhooks/revenuecat POST"
+      ],
+      "notes": "Backend has RevenueCat webhook + subscription check. No paywall screen in app"
+    },
+    {
+      "name": "Push Notifications",
+      "status": "partial",
+      "screens": [],
+      "endpoints": [
+        "/api/push-token GET",
+        "/api/push-token POST",
+        "/api/cron/notifications GET"
+      ],
+      "notes": "Token registration + cron job work. No user-facing settings screen"
+    },
+    {
+      "name": "Wearables / Health Sync",
+      "status": "not-started",
+      "screens": [],
+      "endpoints": [],
+      "notes": "DB schema exists (healthData table). No endpoints, no screen"
+    },
+    {
+      "name": "Report Builder",
+      "status": "not-started",
+      "screens": [],
+      "endpoints": [],
+      "notes": "In wireframe spec. No screen, no endpoint"
+    },
+    {
+      "name": "QR Code Funnel",
+      "status": "not-started",
+      "screens": [],
+      "endpoints": [],
+      "notes": "Wireframe spec has 6 screens. Not started"
+    },
+    {
+      "name": "Custom Tracking",
+      "status": "not-started",
+      "screens": [],
+      "endpoints": [],
+      "notes": "DB has customSymptoms field in profiles. No dedicated screen"
+    },
+    {
+      "name": "Programs / Lessons",
+      "status": "not-started",
+      "screens": [],
+      "endpoints": [],
+      "notes": "DB has programProgress table. No endpoints, no screens"
+    }
+  ],
+  "screens": {
+    "built": [
+      {
+        "name": "about-me.tsx",
+        "section": "(app)"
+      },
+      {
+        "name": "article.tsx",
+        "section": "(app)"
+      },
+      {
+        "name": "calendar.tsx",
+        "section": "(app)"
+      },
+      {
+        "name": "detailed-log.tsx",
+        "section": "(app)"
+      },
+      {
+        "name": "edit-profile.tsx",
+        "section": "(app)"
+      },
+      {
+        "name": "export-data.tsx",
+        "section": "(app)"
+      },
+      {
+        "name": "help-feedback.tsx",
+        "section": "(app)"
+      },
+      {
+        "name": "index.tsx",
+        "section": "(app)"
+      },
+      {
+        "name": "insights.tsx",
+        "section": "(app)"
+      },
+      {
+        "name": "journal.tsx",
+        "section": "(app)"
+      },
+      {
+        "name": "learn.tsx",
+        "section": "(app)"
+      },
+      {
+        "name": "legal.tsx",
+        "section": "(app)"
+      },
+      {
+        "name": "log.tsx",
+        "section": "(app)"
+      },
+      {
+        "name": "meds.tsx",
+        "section": "(app)"
+      },
+      {
+        "name": "privacy.tsx",
+        "section": "(app)"
+      },
+      {
+        "name": "profile.tsx",
+        "section": "(app)"
+      },
+      {
+        "name": "quick-log.tsx",
+        "section": "(app)"
+      },
+      {
+        "name": "sos.tsx",
+        "section": "(app)"
+      },
+      {
+        "name": "symptom-detail.tsx",
+        "section": "(app)"
+      },
+      {
+        "name": "terms.tsx",
+        "section": "(app)"
+      },
+      {
+        "name": "sign-in.tsx",
+        "section": "(auth)"
+      },
+      {
+        "name": "sign-up.tsx",
+        "section": "(auth)"
+      },
+      {
+        "name": "welcome.tsx",
+        "section": "(auth)"
+      },
+      {
+        "name": "about-you.tsx",
+        "section": "(onboarding)"
+      },
+      {
+        "name": "done.tsx",
+        "section": "(onboarding)"
+      },
+      {
+        "name": "goals.tsx",
+        "section": "(onboarding)"
+      },
+      {
+        "name": "notif-setup.tsx",
+        "section": "(onboarding)"
+      },
+      {
+        "name": "quiz-intro.tsx",
+        "section": "(onboarding)"
+      },
+      {
+        "name": "quiz-q1.tsx",
+        "section": "(onboarding)"
+      },
+      {
+        "name": "quiz-q2.tsx",
+        "section": "(onboarding)"
+      },
+      {
+        "name": "quiz-q3.tsx",
+        "section": "(onboarding)"
+      },
+      {
+        "name": "quiz-results.tsx",
+        "section": "(onboarding)"
+      },
+      {
+        "name": "stage.tsx",
+        "section": "(onboarding)"
+      },
+      {
+        "name": "symptoms.tsx",
+        "section": "(onboarding)"
+      },
+      {
+        "name": "val-stage.tsx",
+        "section": "(onboarding)"
+      },
+      {
+        "name": "val-symptoms.tsx",
+        "section": "(onboarding)"
+      }
+    ],
+    "missing": [
+      "journal-am",
+      "journal-pm",
+      "journal-done",
+      "journal-week"
+    ]
+  },
+  "endpoints": [
+    {
+      "path": "/api/articles/[id]",
+      "methods": [
+        "GET"
+      ]
+    },
+    {
+      "path": "/api/articles",
+      "methods": [
+        "GET"
+      ]
+    },
+    {
+      "path": "/api/cron/benchmarks",
+      "methods": [
+        "GET"
+      ]
+    },
+    {
+      "path": "/api/cron/compute-scores",
+      "methods": [
+        "GET"
+      ]
+    },
+    {
+      "path": "/api/cron/correlations",
+      "methods": [
+        "GET"
+      ]
+    },
+    {
+      "path": "/api/cron/narratives",
+      "methods": [
+        "GET"
+      ]
+    },
+    {
+      "path": "/api/cron/notifications",
+      "methods": [
+        "GET"
+      ]
+    },
+    {
+      "path": "/api/health",
+      "methods": [
+        "GET"
+      ]
+    },
+    {
+      "path": "/api/insights/benchmarks",
+      "methods": [
+        "GET"
+      ]
+    },
+    {
+      "path": "/api/insights/correlations",
+      "methods": [
+        "GET"
+      ]
+    },
+    {
+      "path": "/api/insights/home",
+      "methods": [
+        "GET"
+      ]
+    },
+    {
+      "path": "/api/logs",
+      "methods": [
+        "GET",
+        "POST"
+      ]
+    },
+    {
+      "path": "/api/meds/[id]/log",
+      "methods": [
+        "POST"
+      ]
+    },
+    {
+      "path": "/api/meds/logs",
+      "methods": [
+        "GET"
+      ]
+    },
+    {
+      "path": "/api/meds",
+      "methods": [
+        "GET",
+        "POST"
+      ]
+    },
+    {
+      "path": "/api/profile",
+      "methods": [
+        "GET",
+        "POST"
+      ]
+    },
+    {
+      "path": "/api/push-token",
+      "methods": [
+        "GET",
+        "POST"
+      ]
+    },
+    {
+      "path": "/api/sos",
+      "methods": [
+        "GET",
+        "POST"
+      ]
+    },
+    {
+      "path": "/api/subscription",
+      "methods": [
+        "GET"
+      ]
+    },
+    {
+      "path": "/api/webhooks/revenuecat",
+      "methods": [
+        "POST"
+      ]
+    }
+  ],
+  "connectivity": {
+    "map": [
+      {
+        "screen": "about-me.tsx",
+        "calls": [
+          "/api/profile"
+        ]
+      },
+      {
+        "screen": "article.tsx",
+        "calls": [
+          "/api/articles/${id}"
+        ]
+      },
+      {
+        "screen": "calendar.tsx",
+        "calls": [
+          "/api/logs?range=45d"
+        ]
+      },
+      {
+        "screen": "detailed-log.tsx",
+        "calls": [
+          "/api/logs"
+        ]
+      },
+      {
+        "screen": "edit-profile.tsx",
+        "calls": [
+          "/api/profile"
+        ]
+      },
+      {
+        "screen": "index.tsx",
+        "calls": [
+          "/api/logs?date=${selectedDate}",
+          "/api/medications",
+          "/api/medications/logs?date=${todayDate}",
+          "/api/logs?range=28d",
+          "/api/articles",
+          "/api/insights/home?date=${todayDate}",
+          "/api/medications/logs"
+        ]
+      },
+      {
+        "screen": "insights.tsx",
+        "calls": [
+          "/api/logs?range=${range}"
+        ]
+      },
+      {
+        "screen": "journal.tsx",
+        "calls": [
+          "/api/logs?date=${today}",
+          "/api/logs?from=${mondayStr}&to=${today}",
+          "/api/insights/home?date=${today}"
+        ]
+      },
+      {
+        "screen": "meds.tsx",
+        "calls": [
+          "/api/meds",
+          "/api/meds/logs?date=${today}",
+          "/api/meds/logs?range=7",
+          "/api/meds/${medId}/log"
+        ]
+      },
+      {
+        "screen": "profile.tsx",
+        "calls": [
+          "/api/profile"
+        ]
+      },
+      {
+        "screen": "quick-log.tsx",
+        "calls": [
+          "/api/profile",
+          "/api/medications",
+          "/api/medications/logs?date=${logDate}",
+          "/api/logs?date=${today}",
+          "/api/logs",
+          "/api/medications/logs"
+        ]
+      },
+      {
+        "screen": "sos.tsx",
+        "calls": [
+          "/api/sos"
+        ]
+      },
+      {
+        "screen": "symptom-detail.tsx",
+        "calls": [
+          "/api/logs?range=28d"
+        ]
+      },
+      {
+        "screen": "done.tsx",
+        "calls": [
+          "/api/profile"
+        ]
+      }
+    ],
+    "orphanEndpoints": [
+      "/api/insights/benchmarks GET",
+      "/api/insights/correlations GET",
+      "/api/push-token GET/POST",
+      "/api/subscription GET"
+    ]
+  },
+  "infrastructure": {
+    "hasAppTests": false,
+    "hasApiTests": false,
+    "appTestCount": 0,
+    "apiTestCount": 0,
+    "hasAppCI": true,
+    "hasApiCI": true,
+    "zodRoutes": 0,
+    "totalRoutes": 20,
+    "cronJobs": 5,
+    "dbTables": [
+      "profiles",
+      "subscriptions",
+      "dailyLogs",
+      "medications",
+      "medLogs",
+      "programProgress",
+      "articles",
+      "sosEvents",
+      "healthData",
+      "pushTokens",
+      "computedScores",
+      "userCorrelations",
+      "benchmarkAggregates",
+      "narratives"
+    ]
+  }
+}
