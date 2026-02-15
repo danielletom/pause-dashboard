@@ -1,10 +1,10 @@
 {
-  "generatedAt": "2026-02-15T10:22:17.292Z",
+  "generatedAt": "2026-02-15T17:44:57.418Z",
   "commitInfo": {
     "app": {
-      "sha": "4bf6e3a",
-      "message": "Wire insights to real API data and add journal detail screens",
-      "date": "2026-02-15 18:22:06 +0800"
+      "sha": "fd47c29",
+      "message": "Fix bugs across SOS, insights, journal, and meds screens",
+      "date": "2026-02-16 01:40:30 +0800"
     },
     "api": {
       "sha": "0ed608d",
@@ -19,14 +19,14 @@
   "categories": {
     "ui": {
       "label": "Screens & UI",
-      "percent": 85,
-      "built": 40,
+      "percent": 83,
+      "built": 39,
       "total": 47,
-      "detail": "40 of 47 screens built"
+      "detail": "39 of 47 screens built"
     },
     "ux": {
       "label": "Design & Polish",
-      "percent": 42,
+      "percent": 46,
       "items": [
         {
           "name": "Stone color palette",
@@ -46,6 +46,10 @@
         },
         {
           "name": "Loading states",
+          "done": true
+        },
+        {
+          "name": "Step-by-step wizard pattern",
           "done": true
         },
         {
@@ -77,7 +81,7 @@
           "done": false
         }
       ],
-      "detail": "5 of 12 checklist items"
+      "detail": "6 of 13 checklist items"
     },
     "api": {
       "label": "Backend API",
@@ -120,7 +124,7 @@
     },
     "features": {
       "label": "End-to-End Features",
-      "percent": 55,
+      "percent": 56,
       "detail": "22 features tracked"
     },
     "infra": {
@@ -195,12 +199,13 @@
       "name": "Detailed Symptom Log",
       "status": "connected",
       "screens": [
+        "log.tsx",
         "detailed-log.tsx"
       ],
       "endpoints": [
         "/api/logs POST"
       ],
-      "notes": "5-tab logging (body, mood, sleep, context, cycle)"
+      "notes": "5-step wizard (symptoms → severity → mood → triggers → note). Severity UI matches morning check-in with Mild/Moderate/Severe per symptom"
     },
     {
       "name": "Home Dashboard",
@@ -215,7 +220,7 @@
         "/api/articles GET",
         "/api/insights/home GET"
       ],
-      "notes": "Readiness score, 7-day strip, meds, journal card, tonight's plan"
+      "notes": "Readiness score with activity recommendation, 7-day strip, morning/evening check-in CTA, editable sleep, meds, journal card"
     },
     {
       "name": "Insights & Patterns",
@@ -229,11 +234,11 @@
         "/api/insights/correlations GET",
         "/api/insights/benchmarks GET"
       ],
-      "notes": "Pattern detection, correlations, benchmark comparisons"
+      "notes": "Pattern detection, correlations, benchmark comparisons. Morning/evening completion tracking. Report moved to settings"
     },
     {
       "name": "Journal",
-      "status": "partial",
+      "status": "connected",
       "screens": [
         "journal.tsx"
       ],
@@ -241,7 +246,7 @@
         "/api/logs GET",
         "/api/insights/home GET"
       ],
-      "notes": "Landing screen built. AM/PM/Done/Week screens declared in nav but files missing"
+      "notes": "Landing screen with week overview, links to calendar and symptom log. View full week routes to calendar"
     },
     {
       "name": "Medications",
@@ -255,7 +260,7 @@
         "/api/meds/[id]/log POST",
         "/api/meds/logs GET"
       ],
-      "notes": "Add/edit/delete meds, daily tracking, adherence view"
+      "notes": "Add/edit/delete meds, daily tracking, adherence view. Custom time/frequency, clearable type selection, SMS phone field, reordered tabs (Current first)"
     },
     {
       "name": "SOS Breathing",
@@ -267,7 +272,7 @@
         "/api/sos POST",
         "/api/sos GET"
       ],
-      "notes": "Animated breathing exercise, saves events to API"
+      "notes": "Animated breathing exercise, saves events to API. Reusable (state resets on done). Hot flash logging posts directly to /api/logs"
     },
     {
       "name": "Calendar View",
@@ -439,10 +444,6 @@
       },
       {
         "name": "calendar.tsx",
-        "section": "(app)"
-      },
-      {
-        "name": "detailed-log.tsx",
         "section": "(app)"
       },
       {
@@ -742,12 +743,6 @@
         ]
       },
       {
-        "screen": "detailed-log.tsx",
-        "calls": [
-          "/api/logs"
-        ]
-      },
-      {
         "screen": "edit-profile.tsx",
         "calls": [
           "/api/profile"
@@ -770,7 +765,8 @@
         "calls": [
           "/api/logs?range=${range}",
           "/api/insights/correlations",
-          "/api/insights/benchmarks"
+          "/api/insights/benchmarks",
+          "/api/logs?date=${todayDate}"
         ]
       },
       {
@@ -807,6 +803,12 @@
         ]
       },
       {
+        "screen": "log.tsx",
+        "calls": [
+          "/api/logs"
+        ]
+      },
+      {
         "screen": "meds.tsx",
         "calls": [
           "/api/meds",
@@ -828,14 +830,14 @@
           "/api/meds",
           "/api/meds/logs?date=${logDate}",
           "/api/logs?date=${today}",
-          "/api/logs",
-          "/api/meds/logs"
+          "/api/logs"
         ]
       },
       {
         "screen": "sos.tsx",
         "calls": [
-          "/api/sos"
+          "/api/sos",
+          "/api/logs"
         ]
       },
       {

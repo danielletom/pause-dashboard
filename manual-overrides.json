@@ -11,44 +11,44 @@
     {
       "name": "Detailed Symptom Log",
       "status": "connected",
-      "screens": ["detailed-log.tsx"],
+      "screens": ["log.tsx", "detailed-log.tsx"],
       "endpoints": ["/api/logs POST"],
-      "notes": "5-tab logging (body, mood, sleep, context, cycle)"
+      "notes": "5-step wizard (symptoms → severity → mood → triggers → note). Severity UI matches morning check-in with Mild/Moderate/Severe per symptom"
     },
     {
       "name": "Home Dashboard",
       "status": "connected",
       "screens": ["index.tsx"],
       "endpoints": ["/api/logs GET", "/api/medications GET", "/api/medications/logs GET", "/api/articles GET", "/api/insights/home GET"],
-      "notes": "Readiness score, 7-day strip, meds, journal card, tonight's plan"
+      "notes": "Readiness score with activity recommendation, 7-day strip, morning/evening check-in CTA, editable sleep, meds, journal card"
     },
     {
       "name": "Insights & Patterns",
       "status": "connected",
       "screens": ["insights.tsx", "symptom-detail.tsx"],
       "endpoints": ["/api/logs GET", "/api/insights/correlations GET", "/api/insights/benchmarks GET"],
-      "notes": "Pattern detection, correlations, benchmark comparisons"
+      "notes": "Pattern detection, correlations, benchmark comparisons. Morning/evening completion tracking. Report moved to settings"
     },
     {
       "name": "Journal",
-      "status": "partial",
+      "status": "connected",
       "screens": ["journal.tsx"],
       "endpoints": ["/api/logs GET", "/api/insights/home GET"],
-      "notes": "Landing screen built. AM/PM/Done/Week screens declared in nav but files missing"
+      "notes": "Landing screen with week overview, links to calendar and symptom log. View full week routes to calendar"
     },
     {
       "name": "Medications",
       "status": "connected",
       "screens": ["meds.tsx"],
       "endpoints": ["/api/meds GET", "/api/meds POST", "/api/meds/[id]/log POST", "/api/meds/logs GET"],
-      "notes": "Add/edit/delete meds, daily tracking, adherence view"
+      "notes": "Add/edit/delete meds, daily tracking, adherence view. Custom time/frequency, clearable type selection, SMS phone field, reordered tabs (Current first)"
     },
     {
       "name": "SOS Breathing",
       "status": "connected",
       "screens": ["sos.tsx"],
       "endpoints": ["/api/sos POST", "/api/sos GET"],
-      "notes": "Animated breathing exercise, saves events to API"
+      "notes": "Animated breathing exercise, saves events to API. Reusable (state resets on done). Hot flash logging posts directly to /api/logs"
     },
     {
       "name": "Calendar View",
@@ -162,6 +162,7 @@
     { "name": "Custom FAB log button", "done": true },
     { "name": "Empty states", "done": true },
     { "name": "Loading states", "done": true },
+    { "name": "Step-by-step wizard pattern", "done": true },
     { "name": "Design system / component library", "done": false },
     { "name": "Custom typography (beyond SpaceMono)", "done": false },
     { "name": "Real thumbnail images (not emoji)", "done": false },
