@@ -1,15 +1,15 @@
 {
-  "generatedAt": "2026-02-15T07:18:24.937Z",
+  "generatedAt": "2026-02-15T10:08:25.703Z",
   "commitInfo": {
     "app": {
-      "sha": "8ae0e54",
-      "message": "Wireframe v3: complete UI overhaul with onboarding, quick-log, insights, and new screens",
-      "date": "2026-02-13 12:39:39 +0800"
+      "sha": "d066f51",
+      "message": "Fix API endpoint paths and align UI with wireframe v3",
+      "date": "2026-02-15 18:08:12 +0800"
     },
     "api": {
-      "sha": "30c1685",
-      "message": "Add intelligence layer: scores, benchmarks, correlations, AI narratives, subscriptions",
-      "date": "2026-02-13 12:40:00 +0800"
+      "sha": "ba6f1b2",
+      "message": "Fix intelligence layer and add med log endpoint",
+      "date": "2026-02-15 18:08:00 +0800"
     }
   },
   "overall": {
@@ -84,7 +84,7 @@
       "percent": 54,
       "endpoints": {
         "GET": 18,
-        "POST": 7,
+        "POST": 8,
         "PUT": 0,
         "DELETE": 0,
         "PATCH": 0
@@ -664,7 +664,8 @@
     {
       "path": "/api/meds/logs",
       "methods": [
-        "GET"
+        "GET",
+        "POST"
       ]
     },
     {
@@ -744,12 +745,12 @@
         "screen": "index.tsx",
         "calls": [
           "/api/logs?date=${selectedDate}",
-          "/api/medications",
-          "/api/medications/logs?date=${todayDate}",
+          "/api/meds",
+          "/api/meds/logs?date=${todayDate}",
           "/api/logs?range=28d",
           "/api/articles",
           "/api/insights/home?date=${todayDate}",
-          "/api/medications/logs"
+          "/api/meds/logs"
         ]
       },
       {
@@ -785,11 +786,11 @@
         "screen": "quick-log.tsx",
         "calls": [
           "/api/profile",
-          "/api/medications",
-          "/api/medications/logs?date=${logDate}",
+          "/api/meds",
+          "/api/meds/logs?date=${logDate}",
           "/api/logs?date=${today}",
           "/api/logs",
-          "/api/medications/logs"
+          "/api/meds/logs"
         ]
       },
       {
