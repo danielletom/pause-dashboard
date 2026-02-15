@@ -1,10 +1,10 @@
 {
-  "generatedAt": "2026-02-15T17:44:57.418Z",
+  "generatedAt": "2026-02-15T17:56:22.385Z",
   "commitInfo": {
     "app": {
-      "sha": "fd47c29",
-      "message": "Fix bugs across SOS, insights, journal, and meds screens",
-      "date": "2026-02-16 01:40:30 +0800"
+      "sha": "353d061",
+      "message": "Fix symptom display and calendar reload on homescreen",
+      "date": "2026-02-16 01:45:20 +0800"
     },
     "api": {
       "sha": "0ed608d",
