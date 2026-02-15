@@ -1,28 +1,28 @@
 {
-  "generatedAt": "2026-02-15T10:08:25.703Z",
+  "generatedAt": "2026-02-15T10:22:17.292Z",
   "commitInfo": {
     "app": {
-      "sha": "d066f51",
-      "message": "Fix API endpoint paths and align UI with wireframe v3",
-      "date": "2026-02-15 18:08:12 +0800"
+      "sha": "4bf6e3a",
+      "message": "Wire insights to real API data and add journal detail screens",
+      "date": "2026-02-15 18:22:06 +0800"
     },
     "api": {
-      "sha": "ba6f1b2",
-      "message": "Fix intelligence layer and add med log endpoint",
-      "date": "2026-02-15 18:08:00 +0800"
+      "sha": "0ed608d",
+      "message": "Add profile PUT endpoint and fix AI SDK property name",
+      "date": "2026-02-15 18:21:58 +0800"
     }
   },
   "overall": {
-    "percent": 60,
+    "percent": 67,
     "label": "Building"
   },
   "categories": {
     "ui": {
       "label": "Screens & UI",
-      "percent": 77,
-      "built": 36,
+      "percent": 85,
+      "built": 40,
       "total": 47,
-      "detail": "36 of 47 screens built"
+      "detail": "40 of 47 screens built"
     },
     "ux": {
       "label": "Design & Polish",
@@ -81,15 +81,15 @@
     },
     "api": {
       "label": "Backend API",
-      "percent": 54,
+      "percent": 80,
       "endpoints": {
         "GET": 18,
         "POST": 8,
-        "PUT": 0,
+        "PUT": 1,
         "DELETE": 0,
         "PATCH": 0
       },
-      "detail": "20 endpoints, no PUT/DELETE"
+      "detail": "20 endpoints, full CRUD"
     },
     "ai": {
       "label": "Intelligence",
@@ -466,6 +466,22 @@
         "section": "(app)"
       },
       {
+        "name": "journal-am.tsx",
+        "section": "(app)"
+      },
+      {
+        "name": "journal-done.tsx",
+        "section": "(app)"
+      },
+      {
+        "name": "journal-pm.tsx",
+        "section": "(app)"
+      },
+      {
+        "name": "journal-week.tsx",
+        "section": "(app)"
+      },
+      {
         "name": "journal.tsx",
         "section": "(app)"
       },
@@ -574,12 +590,7 @@
         "section": "(onboarding)"
       }
     ],
-    "missing": [
-      "journal-am",
-      "journal-pm",
-      "journal-done",
-      "journal-week"
-    ]
+    "missing": []
   },
   "endpoints": [
     {
@@ -679,7 +690,8 @@
       "path": "/api/profile",
       "methods": [
         "GET",
-        "POST"
+        "POST",
+        "PUT"
       ]
     },
     {
@@ -756,7 +768,34 @@
       {
         "screen": "insights.tsx",
         "calls": [
-          "/api/logs?range=${range}"
+          "/api/logs?range=${range}",
+          "/api/insights/correlations",
+          "/api/insights/benchmarks"
+        ]
+      },
+      {
+        "screen": "journal-am.tsx",
+        "calls": [
+          "/api/logs?date=${today}"
+        ]
+      },
+      {
+        "screen": "journal-done.tsx",
+        "calls": [
+          "/api/logs?date=${today}",
+          "/api/logs?from=${mondayStr}&to=${today}"
+        ]
+      },
+      {
+        "screen": "journal-pm.tsx",
+        "calls": [
+          "/api/logs?date=${today}"
+        ]
+      },
+      {
+        "screen": "journal-week.tsx",
+        "calls": [
+          "/api/logs?from=${startStr}&to=${todayStr}"
         ]
       },
       {
@@ -813,8 +852,6 @@
       }
     ],
     "orphanEndpoints": [
-      "/api/insights/benchmarks GET",
-      "/api/insights/correlations GET",
       "/api/push-token GET/POST",
       "/api/subscription GET"
     ]
