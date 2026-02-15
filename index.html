@@ -460,7 +460,7 @@
   let data;
 
   try {
-    const res = await fetch('dashboard-data.json');
+    const res = await fetch('dashboard-data.json?v=' + Date.now());
     data = await res.json();
   } catch (e) {
     loadingEl.innerHTML = '<div style="color:var(--red)">Could not load dashboard-data.json</div><div style="margin-top:8px;color:var(--text-muted)">Run the scanner first: node scripts/scan.mjs</div>';
