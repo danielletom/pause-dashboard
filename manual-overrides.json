@@ -20,7 +20,7 @@
       "status": "connected",
       "screens": ["index.tsx"],
       "endpoints": ["/api/logs GET", "/api/meds GET", "/api/meds/logs GET", "/api/articles GET", "/api/insights/home GET"],
-      "notes": "Readiness score, 7-day strip, smart CTA. Streak deduplicates by date. Handles legacy symptomsJson object values. Sleep edit creates new entry (no PATCH/PUT)"
+      "notes": "Readiness score, 7-day strip, smart CTA. Streak deduplicates by date. Handles legacy symptomsJson object values. Sleep edit creates new entry (no PATCH/PUT). Enhanced Tonight's Plan with 3-item hierarchy: program lesson, suggested audio with tags, evening journal. Wellness Centre entry card with progress bar"
     },
     {
       "name": "Insights & Patterns",
@@ -63,6 +63,13 @@
       "screens": ["learn.tsx", "article.tsx"],
       "endpoints": ["/api/articles GET", "/api/articles/[id] GET"],
       "notes": "Article list + reader. Emoji placeholders for thumbnails"
+    },
+    {
+      "name": "Wellness Centre",
+      "status": "connected",
+      "screens": ["wellness.tsx"],
+      "endpoints": [],
+      "notes": "New tab replacing Profile. 8-Week Program card, SOS card, Content Library with filter tabs (All/Meditations/Podcasts/Lessons/Guides). Meditations horizontal scroll, podcasts list, lessons 2x2 grid, guides list, focused programs 2x2 grid. All content is mock data. Audio tags visible throughout (morning/evening/anytime + sleep/calm/energy/hot flashes/mind/basics/nutrition/sos). Profile moved to hidden screen, accessible from Home avatar"
     },
     {
       "name": "Profile & Settings",
